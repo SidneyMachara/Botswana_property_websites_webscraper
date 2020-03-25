@@ -1,19 +1,17 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const { createCSV } = require('../utils/utils');
+const { createCSV, shoutOut } = require('../utils/utils');
 
 class Apex {
 
-    shoutOut() {
-      console.log('*********************************');
-      console.log('*              APEX             *');
-      console.log('*********************************');
-    }
-
+  /**
+    scrape apexproperties website for residential properties
+    and write data to csv/apex.csv
+  */
     async getRecords() {
 
-      this.shoutOut();
+      shoutOut('APEX');
 
       var pagination = [1,2,3,4,5,6,7,8];
       var property_arry = [];

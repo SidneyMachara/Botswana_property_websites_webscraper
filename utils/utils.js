@@ -21,6 +21,12 @@ module.exports = {
         .then(() => {
             console.log('...Done');
         });
+  },
+
+  shoutOut: (who) => {
+    console.log('*********************************');
+    console.log('*            ' + who);
+    console.log('*********************************');
   }
 
 };
