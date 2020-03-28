@@ -1,9 +1,9 @@
 module.exports = {
 
  createCSV: async (records,save_to_path) => {
-    var createCsvWriter = require('csv-writer').createObjectCsvWriter;
+    let createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
-    var csvWriter =  createCsvWriter({
+    let csvWriter =  createCsvWriter({
         path: save_to_path,
         header: [
             {id: 'location', title: 'location'},

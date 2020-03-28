@@ -13,12 +13,12 @@ class Apex {
 
       shoutOut('APEX');
 
-      var pagination = [1,2,3,4,5,6,7,8];
-      var property_arry = [];
+      let pagination = [1,2,3,4,5,6,7,8];
+      let property_arry = [];
 
-      for(var i in pagination) {
+      for(let i in pagination) {
 
-        var page = pagination[i];
+        let page = pagination[i];
         let url = 'https://www.apexproperties.co.bw/results/residential/for-sale/?p='+page+'&advanced_search=1';
 
         await axios.get(url).then((response) => {
@@ -26,21 +26,21 @@ class Apex {
           console.log('-------- '+ page +' --------');
           console.log("Start");
 
-          var html = response.data;
+          let html = response.data;
 
           if(response.status == 200) {
-             var $ = cheerio.load(html);
+             let $ = cheerio.load(html);
 
               $('.property-list-item').each((i, el) => {
-                var property = cheerio.load(el);
+                let property = cheerio.load(el);
 
-                var price =  property('.property-price-heading').html().replace("P",'');
-                var location =  property('.property-marketing-heading').html().replace(/((\d Bedroom House For Sale in )|(\d Bedroom Apartment For Sale in )|(\d Bedroom Guest House For Sale in )|(\d Bedroom Apartment Block For Sale in ))/i,'');
-                var bedrooms =  property('.icon-beds').text();
-                var carports =  property('.icon-garages').text();
-                var bathrooms =  property('.icon-baths').text();
-                var plot_size =  property('.property-list-land-size > .value').text().slice(0,-2);
-                var type =  property('.property-price-heading').html();
+                let price =  property('.property-price-heading').html().replace("P",'');
+                let location =  property('.property-marketing-heading').html().replace(/((\d Bedroom House For Sale in )|(\d Bedroom Apartment For Sale in )|(\d Bedroom Guest House For Sale in )|(\d Bedroom Apartment Block For Sale in ))/i,'');
+                let bedrooms =  property('.icon-beds').text();
+                let carports =  property('.icon-garages').text();
+                let bathrooms =  property('.icon-baths').text();
+                let plot_size =  property('.property-list-land-size > .value').text().slice(0,-2);
+                let type =  'residential';
 
                 let property_obj = {
                   location: location,
@@ -48,7 +48,7 @@ class Apex {
                   carports: carports,
                   bathrooms: bathrooms,
                   plot_size_square_meters: plot_size,
-                  type_of_property: 'residential',
+                  type_of_property: type,
                   price: price
                 };
                 property_arry.push(property_obj);
@@ -62,11 +62,11 @@ class Apex {
          console.log(error);
        });
 
-     };
+     }
 
      // do the CSV
      console.log("almost done");
-     createCSV(property_arry,'./csv/apexproperties.csv');
+     await createCSV(property_arry, './csv/apexproperties.csv');
 
   }
 

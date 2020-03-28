@@ -18,13 +18,13 @@ class Seef {
       console.log(links);
 
       console.log('SCRAPING PAGES');
-      var property_arry = [];
+      let property_arry = [];
 
       // scrape links (property pages)
-      for await ( var link of links) {
+      for await ( let link of links) {
         if( link.includes('/residential-property/') ) {
-          var property_obj = await this.scrapePage(link);
-          if(Object.keys(property_obj).length) {
+            let property_obj = await this.scrapePage(link);
+            if(Object.keys(property_obj).length) {
             property_arry.push(property_obj);
           }
         }
@@ -32,7 +32,7 @@ class Seef {
 
      // write to CSV
      console.log("writing to CSV");
-     createCSV(property_arry,'./csv/seef.csv');
+     await createCSV(property_arry, './csv/seef.csv');
 
   }
 
@@ -42,7 +42,7 @@ class Seef {
   async getPropertyLinks() {
     console.log('GETTING LINKS');
     const pagination = [1,2,3,4,5,6,7,8,9,10,11];
-    const property_links = [];
+    let property_links = [];
 
      for await (const page of pagination) {
 
@@ -52,10 +52,10 @@ class Seef {
 
       await axios.get(url).then( async(response) => {
         // handle success
-        var html = response.data;
+        let html = response.data;
 
-        if(response.status == 200) {
-           var $ = cheerio.load(html);
+        if(response.status === 200) {
+           let $ = cheerio.load(html);
 
           console.log("*****"+ url);
           console.log("**************************");
@@ -87,24 +87,24 @@ class Seef {
 
     await axios.get(pageUrl).then((response) => {
 
-      if(response.status == 200) {
+      if(response.status === 200) {
         const property = cheerio.load(response.data);
 
         let item_type = property('.field-name-field-type .field-item a').text();
 
         if(item_type.includes('House')) {
-          var price =  property('#price_blue_content .field-item').text().replace("BWP",'');
+          let price =  property('#price_blue_content .field-item').text().replace("BWP",'');
 
-          var location  = property('.field-name-field-town-in-botswana .lineage-item-level-1 a').text();
-          if(location == '') {
+          let location  = property('.field-name-field-town-in-botswana .lineage-item-level-1 a').text();
+          if(location === '') {
             location  = property('.field-name-field-town-in-botswana .lineage-item-level-0 a').text();
           }
 
-          var bedrooms =  property('#bedroom .field-item').text();
-          var carports =  property('#bathroom .field-item').text();
-          var bathrooms =  property('#bathroom .field-item').text();
-          var plot_size =  property('.field-name-field-plot-size4 .field-item').text().replace("m2",'');
-          var type =  'residential';
+          let bedrooms =  property('#bedroom .field-item').text();
+          let carports =  property('#bathroom .field-item').text();
+          let bathrooms =  property('#bathroom .field-item').text();
+          let plot_size =  property('.field-name-field-plot-size4 .field-item').text().replace("m2",'');
+          let type =  'residential';
 
           property_obj = {
             location: location,
